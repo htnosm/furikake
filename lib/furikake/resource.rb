@@ -18,8 +18,9 @@ module Furikake
             documents.concat("\n\n")
           rescue LoadError
             logger.warn("リソースタイプ: #{type} を読み込めませんでした.")
-          rescue
+          rescue => e
             logger.warn("リソースタイプ: #{type} の情報を取得出来ませんでした.")
+            logger.warn(e)
           end
         end
       end
