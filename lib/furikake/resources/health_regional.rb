@@ -1,20 +1,26 @@
+# encoding: utf-8
+
 module Furikake
   module Resources
     module HealthRegional
       def report
         current_region = get_current_region
-        resources = get_resources(current_region)
-        headers = [
-          'EventType',
-          'StartTime',
-          'LastUpdateTime',
-          'Status',
-          'EventType'
-        ]
-        if resources.empty?
-          info = 'N/A'
-        else
-          info = MarkdownTables.make_table(headers, resources, is_rows: true, align: 'l')
+        begin
+          resources = get_resources(current_region)
+          headers = [
+            'EventType',
+            'StartTime',
+            'LastUpdateTime',
+            'Status',
+            'EventType'
+          ]
+          if resources.empty?
+            info = 'N/A'
+          else
+            info = MarkdownTables.make_table(headers, resources, is_rows: true, align: 'l')
+          end
+        rescue Aws::Health::Errors::SubscriptionRequiredException
+          info = "SubscriptionRequiredException: ビジネスまたはエンタープライズのAWSサポートプランが必要です."
         end
         documents = <<"EOS"
 ### Health Events (Open/#{current_region})
