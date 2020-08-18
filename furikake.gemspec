@@ -28,6 +28,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'thor'
   spec.add_dependency 'aws-sdk'
-  spec.add_dependency 'markdown-tables'
+  spec.add_dependency 'markdown-tables', '~> 1.1.1'
   spec.add_dependency 'backlog_kit'
 end

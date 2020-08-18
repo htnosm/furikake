@@ -63,7 +63,7 @@ EOS
     end
  
     def published_by
-      "*Published #{Time.now} by [furikake](https://github.com/inokappa/furikake)*"
+      "*Published #{Time.now}*"
     end
   end
 end
