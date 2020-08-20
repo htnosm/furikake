@@ -30,7 +30,9 @@ EOS
         ## アンダースコア (|_) へバックスラッシュ挿入
         documents.gsub!(/\|_/, "|\\_")
         ## 空白 (||) へスペース挿入
-        documents.gsub!(/\|\|/, "| |").gsub!(/\|\|/, "| |")
+        while documents.match(/\|\|/) do
+          documents.gsub!(/\|\|/, "| |")
+        end
 
         documents
       end
