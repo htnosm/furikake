@@ -60,7 +60,11 @@ module Furikake
       path = '.furikake.yml' if path.nil?
       begin
         config = YAML.load_file(path)
-        config['resources']['aws'].sort
+        if config['resources'].has_key?('keep_config_order') and config['resources']['keep_config_order']
+          config['resources']['aws']
+        else
+          config['resources']['aws'].sort
+        end
       rescue Errno::ENOENT
         logger.error('.furikake.yml が存在していません.')
         exit 1
