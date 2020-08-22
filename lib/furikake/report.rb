@@ -36,6 +36,14 @@ module Furikake
 
     def generate(header, footer)
       resource = Furikake::Resource.generate(@cli, @params['resources'])
+      # Backlog上でのテーブル形式崩れの対応
+      ## アンダースコア (|_) へバックスラッシュ挿入
+      resource.gsub!(/\|_/, "|\\_")
+      ## 空白 (||) へスペース挿入
+      while resource.match(/\|\|/) do
+        resource.gsub!(/\|\|/, "| |")
+      end
+
       documents = <<"EOS"
 #{header}
 #{resource}
