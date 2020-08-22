@@ -4,6 +4,7 @@
 
 | resource | content |
 | :--- | :--- |
+| cloudfront | CloudFront Distribution |
 | ebs | EBS |
 | ec2_with_vol | EC2 に Volume 情報付与 |
 | health | AWS Health イベント |
@@ -15,8 +16,10 @@
 ## その他
 
 * 読込失敗時のエラー出力追加
-* Markdown Table出力時の先頭・末尾の区切り文字追加
-    * markdown-tables の VerUp
+* Markdown Table出力
+    * 先頭・末尾の区切り文字追加
+        * markdown-tables の VerUp
+    * Backlog上でのテーブル形式崩れの対応
 * 出力順序固定(Nameでのsort)
 
 * yml設定でのリソース順を保持して出力
