@@ -47,7 +47,7 @@ module Furikake
             end
             volume << attachments.join('<br>')
 
-            volumes << volume.sort
+            volumes << volume
           end
           break if res.next_token.nil?
           params[:next_token] = res.next_token
