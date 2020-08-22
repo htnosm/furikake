@@ -78,7 +78,7 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        return ingresses, egresses
+        return ingresses.sort, egresses.sort
       end
 
       def list_ip_ranges(ip_ranges)

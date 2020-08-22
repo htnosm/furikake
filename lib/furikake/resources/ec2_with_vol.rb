@@ -68,7 +68,7 @@ module Furikake
           params[:next_token] = res.next_token
         end
 
-        instances
+        instances.sort
       end
       module_function :report, :get_resources
     end
