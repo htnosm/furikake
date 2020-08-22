@@ -4,9 +4,13 @@
 
 | resource | content |
 | :--- | :--- |
+| ebs | EBS |
+| ec2_with_vol | EC2 に Volume 情報付与 |
 | health | AWS Health イベント |
 | health_regional | AWS Health イベント(リージョン固有) |
 | route53 | Route53 レコードセット |
+| s3 | S3バケット |
+| s3_regional | S3バケット(リージョン固有) |
 
 ## その他
 
