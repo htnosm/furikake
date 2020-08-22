@@ -25,15 +25,6 @@ EOS
 EOS
           documents << document
         end
-
-        # Backlog上でのテーブル形式崩れの対応
-        ## アンダースコア (|_) へバックスラッシュ挿入
-        documents.gsub!(/\|_/, "|\\_")
-        ## 空白 (||) へスペース挿入
-        while documents.match(/\|\|/) do
-          documents.gsub!(/\|\|/, "| |")
-        end
-
         documents
       end
 
