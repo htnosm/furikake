@@ -40,7 +40,7 @@ EOS
           function << f[:memory_size]
           function_infos << function
         end
-        function_infos
+        function_infos.sort
       end
 
       module_function :report, :get_resources

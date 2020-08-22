@@ -45,7 +45,7 @@ EOS
           end
           domain_info << resource
         end
-        domain_info
+        domain_info.sort
       end
 
       module_function :report, :get_resources

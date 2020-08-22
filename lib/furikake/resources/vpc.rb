@@ -32,7 +32,7 @@ EOS
           vpc << v.state
           vpcs << vpc
         end
-        vpcs
+        vpcs.sort
       end
       module_function :report, :get_resources
     end

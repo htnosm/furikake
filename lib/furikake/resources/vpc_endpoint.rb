@@ -36,7 +36,7 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        endpoints
+        endpoints.sort
       end
 
       module_function :report, :get_resources

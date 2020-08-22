@@ -62,7 +62,7 @@ EOS
           target_groups << target_group
         end
 
-        return albs, target_groups
+        return albs.sort, target_groups.sort
       end
 
       module_function :report, :get_resources

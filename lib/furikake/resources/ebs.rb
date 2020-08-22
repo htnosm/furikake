@@ -47,13 +47,13 @@ module Furikake
             end
             volume << attachments.join('<br>')
 
-            volumes << volume
+            volumes << volume.sort
           end
           break if res.next_token.nil?
           params[:next_token] = res.next_token
         end
 
-        volumes
+        volumes.sort
       end
       module_function :report, :get_resources
     end

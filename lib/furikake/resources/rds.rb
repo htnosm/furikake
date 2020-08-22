@@ -47,7 +47,7 @@ module Furikake
           cluster_infos << cluster
         end
 
-        return rds_infos, cluster_infos
+        return rds_infos.sort, cluster_infos.sort
       end
 
       module_function :report, :get_resources

@@ -41,7 +41,7 @@ EOS
           directory << r[:size]
           directoryservice_infos << directory
         end
-        directoryservice_infos
+        directoryservice_infos.sort
       end
 
       module_function :report, :get_resources

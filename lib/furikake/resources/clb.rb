@@ -28,7 +28,7 @@ EOS
           elb << (lb.instances.map(&:to_h).map {|a| a[:instance_id] }).join(',')
           elbs << elb
         end
-        elbs
+        elbs.sort
       end
 
       module_function :report, :get_resources

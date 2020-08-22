@@ -45,7 +45,7 @@ EOS
           end
           kinesis_infos << resouces
         end
-        kinesis_infos
+        kinesis_infos.sort
       end
 
       module_function :report, :get_resources
