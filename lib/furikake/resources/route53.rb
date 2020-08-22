@@ -67,7 +67,7 @@ EOS
                   resource_records << rr.value
                 end
                 if resource_records.length > 0
-                  record_set << resource_records.join(",")
+                  record_set << resource_records.join('<br>')
                 else
                   if not (r.alias_target.nil? || r.alias_target.empty?)
                     record_set << r.alias_target.dns_name
@@ -82,14 +82,14 @@ EOS
               params[:start_record_type] = rs_res.next_record_type
             end
 
-            hosted_zone << record_sets
+            hosted_zone << record_sets.sort
             hosted_zones << hosted_zone
           end
 
           break unless res.is_truncated
           params[:next_token] = res.next_token
         end
-        hosted_zones
+        hosted_zones.sort
       end
 
       module_function :report, :get_resources
