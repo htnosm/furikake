@@ -47,17 +47,19 @@ module Furikake
               i.block_device_mappings.each do |b|
                 volume_ids << b.ebs.volume_id
               end
-              params = {
-                volume_ids: volume_ids,
-              }
-              vol_res = ec2.describe_volumes(params)
               volumes = []
-              vol_res.volumes.each do |v|
-                volume = []
-                volume << v.attachments[0].device
-                volume << v.volume_id
-                volume << v.size
-                volumes << volume.join(':')
+              if volume_ids.length > 0
+                params = {
+                  volume_ids: volume_ids,
+                }
+                vol_res = ec2.describe_volumes(params)
+                vol_res.volumes.each do |v|
+                  volume = []
+                  volume << v.attachments[0].device
+                  volume << v.volume_id
+                  volume << v.size
+                  volumes << volume.join(':')
+                end
               end
               instance << volumes.sort.join('<br>')
 
