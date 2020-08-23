@@ -40,9 +40,13 @@ module Furikake
       ## アンダースコア (|_) へバックスラッシュ挿入
       resource.gsub!(/\|_/, "|\\_")
       ## 空白 (||) へスペース挿入
-      while resource.match(/\|\|/) do
-        resource.gsub!(/\|\|/, "| |")
-      end
+      resource.gsub!(/\|\|/, "| |") while resource.match(/\|\|/)
+
+      # table format
+      resource.gsub!(/\|:-\|/, "|:---|") while resource.match(/\|:-\|/)
+      resource.gsub!(/\|-\|/, "|---|") while resource.match(/\|-\|/)
+      resource.gsub!(/\|-:\|/, "|---:|") while resource.match(/\|-:\|/)
+      resource.gsub!(/\|:-:\|/, "|:---:|") while resource.match(/\|:-:\|/)
 
       documents = <<"EOS"
 #{header}
