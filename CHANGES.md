@@ -19,6 +19,7 @@
 * Markdown Table出力
     * 先頭・末尾の区切り文字追加
         * markdown-tables の VerUp
+    * セパレータを1文字から3文字へ
     * Backlog上でのテーブル形式崩れの対応
 * 出力順序固定(Nameでのsort)
 
