@@ -69,8 +69,8 @@ EOS
               end
 
               break unless rs_res.is_truncated
-              params[:start_record_name] = rs_res.next_record_name
-              params[:start_record_type] = rs_res.next_record_type
+              rs_params[:start_record_name] = rs_res.next_record_name
+              rs_params[:start_record_type] = rs_res.next_record_type
             end
 
             hosted_zone << record_sets.sort
