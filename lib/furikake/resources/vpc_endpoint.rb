@@ -3,7 +3,7 @@ module Furikake
     module VpcEndpoint
       def report
         resources = get_resources
-        headers = ['ID', 'Type', 'VPC ID', 'State']
+        headers = ['ServiceName', 'Name', 'ID', 'Type', 'VPC ID', 'State']
         if resources.empty?
           info = 'N/A'
         else
@@ -26,6 +26,8 @@ EOS
           res = ec2.describe_vpc_endpoints(params)
           res.vpc_endpoints.each do |e|
             endpoint = []
+            endpoint << e.service_name
+            endpoint << 'N/A' if e.tags.map(&:to_h).all? { |h| h[:key] != 'Name' }
             endpoint << e.vpc_endpoint_id
             endpoint << e.vpc_endpoint_type
             endpoint << e.vpc_id
@@ -36,7 +38,7 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        endpoints.sort
+        endpoints.sort_by!{|x| [x[0].to_s, x[1].to_s]}
       end
 
       module_function :report, :get_resources
