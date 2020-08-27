@@ -4,11 +4,14 @@
 
 | resource | content |
 | :--- | :--- |
+| acm | AWS Certificate Manager |
+| auto_scaling | Auto Scaling Group |
 | cloudfront | CloudFront Distribution |
 | ebs | EBS |
 | ec2_with_vol | EC2 に Volume 情報付与 |
 | health | AWS Health イベント |
 | health_regional | AWS Health イベント(リージョン固有) |
+| route_table | VPC Route Table |
 | route53 | Route53 レコードセット |
 | s3 | S3バケット |
 | s3_regional | S3バケット(リージョン固有) |
