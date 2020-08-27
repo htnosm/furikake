@@ -39,6 +39,8 @@ module Furikake
       # Backlog上でのテーブル形式崩れの対応
       ## アンダースコア (|_) へバックスラッシュ挿入
       resource.gsub!(/\|_/, "|\\_")
+      ## アスタリスク (|*) へバックスラッシュ挿入
+      resource.gsub!(/\|\*/, "|\\*")
       ## 空白 (||) へスペース挿入
       resource.gsub!(/\|\|/, "| |") while resource.match(/\|\|/)
 
