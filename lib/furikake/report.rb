@@ -27,8 +27,8 @@ module Furikake
         document = generate(header, footer)
         p['wiki_contents'] = document
         param = check_api_key(p)
-        Furikake::Reporters::Backlog.new(param).publish
-        @logger.info("#{param['space_id']} の #{param['wiki_id']} に情報を投稿しました.")
+        wiki_id = Furikake::Reporters::Backlog.new(param).publish
+        @logger.info("#{param['space_id']} の #{wiki_id} に情報を投稿しました.")
       end
     end
 
