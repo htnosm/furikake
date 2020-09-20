@@ -13,10 +13,17 @@ module Furikake
       report.show
     end
 
+    desc 'diff', 'resouces diffs print.'
+    def diff
+      report = Furikake::Report.new(true)
+      report.diff
+    end
+
     desc 'publish', 'resouces publish to something. (Default: Backlog)'
+    option :force, type: :boolean, aliases: '-f', default: true, desc: 'force publish.'
     def publish
       report = Furikake::Report.new(true)
-      report.publish
+      report.publish(options)
     end
 
     desc 'monitor', 'resouces publish to something by daemonize process.'

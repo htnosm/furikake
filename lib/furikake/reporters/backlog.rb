@@ -15,31 +15,16 @@ module Furikake
         @wiki_name = params['wiki_name']
         @wiki_contents = params['wiki_contents']
         @project_key = params['project_key']
+        check_param
       end
 
       def publish
         if @wiki_id.nil?
-          if @project_key.nil?
-            @logger.error("wiki_id、project_key いずれかの指定が必要です.")
-            exit 1
-          elsif @wiki_name.nil? or @wiki_name.length == 0
-            @logger.error("wiki_name が未入力です.")
-            exit 1
-          end
-
-          wikis = @client.get_wikis(@project_key)
-          wikis.body.each do |w|
-            @wiki_id = w.id if w.name == @wiki_name
-          end
+          @wiki_id = get_wiki_id_by_name(@project_key, @wiki_name)
           if @wiki_id.nil?
             @wiki_id = create_wiki()
-            @logger.info("Project \"#{@projcet_key}\" に \"#{@wiki_name}\" を作成しました.")
+            @logger.info("Project \"#{@project_key}\" に \"#{@wiki_name}\" を作成しました.")
           end
-        elsif not @wiki_id.is_a?(Integer)
-          @logger.error("wiki_id: #{@wiki_id} は整数値で指定してください.")
-          exit 1
-        else
-          @logger.info("wiki_id が指定されているため project_key は無視します.") unless @project_key.nil?
         end
 
         params = {}
@@ -54,7 +39,42 @@ module Furikake
         @wiki_id
       end
 
+      def pull
+        @wiki_id = get_wiki_id_by_name(@project_key, @wiki_name) if @wiki_id.nil?
+        if @wiki_id.nil?
+          @logger.info("Project \"#{@project_key}\" に \"#{@wiki_name}\" は存在しません.")
+          return ''
+        else
+          wiki = @client.get_wiki(@wiki_id)
+        end
+        wiki.body.content
+      end
+
+      def get_wiki_id_by_name(project_key, wiki_name)
+        wiki_id = nil
+        wikis = @client.get_wikis(project_key)
+        wikis.body.each do |w|
+          wiki_id = w.id if w.name == wiki_name
+        end
+        wiki_id
+      end
+
       private
+
+      def check_param
+        if @wiki_id.nil?
+          msg = "wiki_id、project_key いずれかの指定が必要です." if @project_key.nil? || @project_key.empty?
+          msg = "wiki_name が未入力です." if @wiki_name.nil? || @wiki_name.empty?
+        elsif not @wiki_id.is_a?(Integer)
+          msg = "wiki_id: #{@wiki_id} は整数値で指定してください."
+        else
+          @logger.warn("wiki_id が指定されているため project_key は無視します.") unless (@project_key.nil? || @project_key.empty?)
+        end
+        unless msg.nil?
+          @logger.error(msg)
+          exit 1
+        end
+      end
 
       def create_wiki
         begin
