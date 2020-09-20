@@ -1,4 +1,5 @@
 require 'furikake/reporters/backlog'
+require 'diff/lcs'
 
 module Furikake
   class Report
@@ -20,15 +21,39 @@ module Furikake
       end
     end
 
-    def publish
+    def diff
+      @params['backlog']['projects'].each do |p|
+        header = insert_published_by(p['header'])
+        footer = p['footer']
+        document = generate(header, footer)
+        param = check_api_key(p)
+        current = Furikake::Reporters::Backlog.new(param).pull
+        diffs = diff_content(current.split("\n"), document.split("\n"))
+        if diffs.length.positive?
+          @logger.info("wikiとの差分を出力します.")
+          puts diffs
+        else
+          @logger.info("wikiとの差分はありません.")
+        end
+      end
+    end
+
+    def publish(options)
+      @force = options['force']
       @params['backlog']['projects'].each do |p|
         header = insert_published_by(p['header'])
         footer = p['footer']
         document = generate(header, footer)
         p['wiki_contents'] = document
         param = check_api_key(p)
-        wiki_id = Furikake::Reporters::Backlog.new(param).publish
-        @logger.info("#{param['space_id']} の #{wiki_id} に情報を投稿しました.")
+        current = Furikake::Reporters::Backlog.new(param).pull
+        diffs = diff_content(current.split("\n"), document.split("\n")) unless @force
+        if @force || diffs.length.positive?
+          wiki_id = Furikake::Reporters::Backlog.new(param).publish
+          @logger.info("#{param['space_id']} の #{wiki_id} に情報を投稿しました.")
+        else
+          @logger.info("更新差分が無いためスキップしました.")
+        end
       end
     end
 
@@ -78,6 +103,20 @@ EOS
  
     def published_by
       "*Published #{Time.now}*"
+    end
+
+    def diff_content(before, after)
+      diffs = Diff::LCS.diff(before, after)
+      output = []
+      diffs.each do |diff|
+        next if diff.first.element.match(/\*Published /)
+
+        output << '-----'
+        diff.each do |line|
+          output << "#{line.position} #{line.action} #{line.element}"
+        end
+      end
+      output
     end
   end
 end
