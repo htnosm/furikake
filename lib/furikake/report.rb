@@ -38,8 +38,7 @@ module Furikake
       end
     end
 
-    def publish(options)
-      @force = options['force']
+    def publish(force)
       @params['backlog']['projects'].each do |p|
         header = insert_published_by(p['header'])
         footer = p['footer']
@@ -47,8 +46,8 @@ module Furikake
         p['wiki_contents'] = document
         param = check_api_key(p)
         current = Furikake::Reporters::Backlog.new(param).pull
-        diffs = diff_content(current.split("\n"), document.split("\n")) unless @force
-        if @force || diffs.length.positive?
+        diffs = diff_content(current.split("\n"), document.split("\n")) unless force
+        if force || diffs.length.positive?
           wiki_id = Furikake::Reporters::Backlog.new(param).publish
           @logger.info("#{param['space_id']} の #{wiki_id} に情報を投稿しました.")
         else

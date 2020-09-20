@@ -9,6 +9,8 @@ module Furikake
       @detach = options[:detach]
       @pid_file = options[:pid]
       @interval = options[:interval]
+      @force = options[:force]
+      @params = read_furikake_yaml
     end
 
     def run
@@ -51,7 +53,7 @@ module Furikake
       i = 0
       while true
         if @interval == i
-          publish
+          publish(@force)
           i = 0
         end
         i += 1
