@@ -55,3 +55,28 @@ backlog:
       wiki_name: 'your-wiki-name'
       project_key: 'XXXXX' # Backlog ProjectKey
 ```
+
+### 差分出力
+
+* 取得リソース情報とWikiの差分出力
+
+```
+Usage:
+  furikake diff
+
+resouces diffs print.
+```
+
+* publishへオプション追加
+  * `--force false` 指定で差分が無い場合の更新を抑止
+
+```
+Usage:
+  furikake publish
+
+Options:
+  -f, [--force]  # force publish.
+                 # Default: true
+
+resouces publish to something. (Default: Backlog)
+```
