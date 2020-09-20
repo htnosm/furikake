@@ -23,13 +23,14 @@ module Furikake
     option :force, type: :boolean, aliases: '-f', default: true, desc: 'force publish.'
     def publish
       report = Furikake::Report.new(true)
-      report.publish(options)
+      report.publish(options['force'])
     end
 
     desc 'monitor', 'resouces publish to something by daemonize process.'
     option :detach, type: :boolean, aliases: '-d', default: false, desc: 'detach monitor process.'
     option :interval, type: :numeric, aliases: '-i', default: 3600, desc: 'specify monitor interval (sec).'
     option :pid, type: :string, aliases: '-p', default: 'furikake.pid', desc: 'specify PID file path (Default: furikake.pid)'
+    option :force, type: :boolean, aliases: '-f', default: true, desc: 'force publish.'
     def monitor
       monitor = Furikake::Monitor.new(options)
       monitor.run
