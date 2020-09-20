@@ -40,7 +40,7 @@ resources:
     - ...
 ```
 
-### Wiki作成
+### Wiki作成(ProjectKey指定)
 
 * wiki_id 指定がない場合のWikiページ作成処理
 * .furikake.yml で `project_key: xxx`、 `wiki_name: xxx` を指定
