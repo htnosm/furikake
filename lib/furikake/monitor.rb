@@ -11,7 +11,6 @@ module Furikake
       @pid_file = options[:pid]
       @interval = options[:interval]
       @force = options[:force]
-      @params = read_furikake_yaml
     end
 
     def run
