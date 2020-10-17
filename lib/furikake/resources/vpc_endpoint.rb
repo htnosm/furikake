@@ -28,6 +28,9 @@ EOS
             endpoint = []
             endpoint << e.service_name
             endpoint << 'N/A' if e.tags.map(&:to_h).all? { |h| h[:key] != 'Name' }
+            e.tags.each do |tag|
+              endpoint << tag.value if tag.key == 'Name'
+            end
             endpoint << e.vpc_endpoint_id
             endpoint << e.vpc_endpoint_type
             endpoint << e.vpc_id
