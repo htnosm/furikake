@@ -49,7 +49,7 @@ EOS
               end
             end
           end
-          iam_role << trusted_entities.join('<br>')
+          iam_role << trusted_entities.sort.join('<br>')
 
           req_inline_policies = {}
           inline_policies = []
