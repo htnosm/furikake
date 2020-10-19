@@ -9,8 +9,13 @@
 | cloudfront | CloudFront Distribution |
 | ebs | EBS |
 | ec2_with_vol | EC2 に Volume 情報付与 |
-| health | AWS Health イベント |
-| health_regional | AWS Health イベント(リージョン固有) |
+| health | AWS Health イベント(オープン) |
+| health_regional | AWS Health イベント(オープン、リージョン固有) |
+| iam_role | IAM Role |
+| iam_role_exclude_service_role | IAM Role(パスが "/aws-service-role/、/service-role/" 以外)
+| iam_group | IAM Group |
+| iam_user | IAM User |
+| redshift | Redshift |
 | route_table | VPC Route Table |
 | route53 | Route53 レコードセット |
 | s3 | S3バケット |
