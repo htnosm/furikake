@@ -29,8 +29,9 @@ module Furikake
           cluster << c[:node_type]
           cluster << "#{c[:cluster_status]}(#{c[:cluster_availability_status]})"
           cluster << c[:number_of_nodes]
-          cluster << "jdbc:redshift://#{endpoint}"
-          odbc_url = "Driver={Amazon Redshift (x64)}; Server=#{c[:endpoint][:address]}; Database=#{c[:db_name]};UID=#{c[:master_username]}; PWD=insert_your_master_user_password_here; Port=#{c[:endpoint][:port]}"
+          # Add space to both end for backlog markdown table parse
+          cluster << " jdbc:redshift://#{endpoint} "
+          odbc_url = " Driver={Amazon Redshift (x64)}; Server=#{c[:endpoint][:address]}; Database=#{c[:db_name]};UID=#{c[:master_username]}; PWD=insert_your_master_user_password_here; Port=#{c[:endpoint][:port]} "
           cluster << odbc_url
           cluster_infos << cluster
         end
