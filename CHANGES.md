@@ -18,6 +18,7 @@
 | redshift | Redshift |
 | route_table | VPC Route Table |
 | route53 | Route53 レコードセット |
+| route53_domains | Route53 ドメイン |
 | s3 | S3バケット |
 | s3_regional | S3バケット(リージョン固有) |
 
