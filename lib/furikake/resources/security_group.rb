@@ -50,7 +50,7 @@ EOS
               source << ip_ranges unless ip_ranges.empty?
               source << list_ids unless list_ids.empty?
               source << group_pairs unless group_pairs.empty?
-              ingress << source.join(', ')
+              ingress << source.sort.join(', ')
               ingresses << ingress
             end
  
@@ -70,7 +70,7 @@ EOS
               dest << ip_ranges unless ip_ranges.empty?
               dest << list_ids unless list_ids.empty?
               dest << group_pairs unless group_pairs.empty?
-              egress << dest.join(', ')
+              egress << dest.sort.join(', ')
               egresses << egress
             end
           end
@@ -78,8 +78,8 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        ingresses.sort_by!{|x| x[1].to_s}
-        egresses.sort_by!{|x| x[1].to_s}
+        ingresses.sort_by!{|x| [x[1].to_s, x[3].to_s]}
+        egresses.sort_by!{|x| [x[1].to_s, x[3].to_s]}
         return ingresses, egresses
       end
 
