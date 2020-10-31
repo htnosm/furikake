@@ -50,7 +50,7 @@ EOS
               source << ip_ranges unless ip_ranges.empty?
               source << list_ids unless list_ids.empty?
               source << group_pairs unless group_pairs.empty?
-              ingress << source.sort.join(', ')
+              ingress << source.join(', ')
               ingresses << ingress
             end
  
@@ -70,7 +70,7 @@ EOS
               dest << ip_ranges unless ip_ranges.empty?
               dest << list_ids unless list_ids.empty?
               dest << group_pairs unless group_pairs.empty?
-              egress << dest.sort.join(', ')
+              egress << dest.join(', ')
               egresses << egress
             end
           end
@@ -88,7 +88,7 @@ EOS
         ip_ranges.each do |ip|
           result << (ip.cidr_ip || 'N/A') + ' (' + (ip.description || 'N/A') + ')'
         end
-        result
+        result.sort
       end
       
       def list_ids(prefix_list_ids)
@@ -96,7 +96,7 @@ EOS
         prefix_list_ids.each do |id|
           result << (id.prefix_list_id || 'N/A') + ' (' + (id.description|| 'N/A') + ')'
         end
-        result
+        result.sort
       end
       
       def list_group_pairs(user_id_group_pairs)
@@ -104,7 +104,7 @@ EOS
         user_id_group_pairs.each do |id|
           result << (id.group_id || 'N/A') + ' (' + (id.description|| 'N/A') + ')'
         end
-        result
+        result.sort
       end
 
       def encode_value(value)
