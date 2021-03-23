@@ -37,9 +37,13 @@ EOS
             asg << a.auto_scaling_group_name
             if a.launch_configuration_name.nil?
               launch_template = []
-              launch_template << a.launch_template.launch_template_name
-              launch_template << a.launch_template.version
-              asg << launch_template.join(":")
+              if a.launch_template.nil?
+                asg << ''
+              else
+                launch_template << a.launch_template.launch_template_name
+                launch_template << a.launch_template.version
+                asg << launch_template.join(":")
+              end
             else
               asg << a.launch_configuration_name
             end
