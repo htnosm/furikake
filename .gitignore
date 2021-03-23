@@ -18,3 +18,5 @@ vendor/
 test.*
 spec/tmp/furikake.yml.test
 furikake.pid
+.rubocop.yml
+.solargraph.yml
