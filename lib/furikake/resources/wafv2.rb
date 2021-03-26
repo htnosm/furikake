@@ -4,7 +4,7 @@ module Furikake
   module Resources
     module Wafv2
       def report
-        web_acls, rules, resources = get_resources
+        web_acls, rules, resources, ip_sets = get_resources
 
         headers = ['Scope', 'WAF ACL Name', 'ID', 'Description']
         if web_acls.empty?
@@ -36,6 +36,16 @@ module Furikake
                                                     align: 'l')
         end
 
+        headers = ['IP Set ID', 'IP Set Name', 'Value']
+        if ip_sets.empty?
+          ip_sets_info = 'N/A'
+        else
+          ip_sets_info = MarkdownTables.make_table(headers,
+                                                   ip_sets,
+                                                   is_rows: true,
+                                                   align: 'l')
+        end
+
         documents = <<"EOS"
 ### WAF (v2)
 
@@ -50,6 +60,10 @@ module Furikake
 #### Resources
 
 #{resource_info}
+
+#### IP Sets
+
+#{ip_sets_info}
 EOS
         documents
       end
@@ -105,9 +119,43 @@ EOS
           resource.each do |r|
             resources << [wa[:name], wa[:id], r.split(':')[5..].join(':')]
           end
+
         end
 
-        return web_acls.sort, rules, resources.sort
+        # ip_set
+        ip_sets = []
+        all_ip_sets = []
+
+        # TODO: iteration in case over limit
+        all_ip_sets = []
+        begin
+          all_ip_sets.concat(client.list_ip_sets({ scope: 'CLOUDFRONT', limit:100 }).ip_sets.map(&:to_h).each { |a| a[:scope]='CLOUDFRONT'; a })
+        rescue Aws::WAFV2::Errors::WAFInvalidParameterException => e
+          # pass (IP Set not found)
+        end
+        begin
+        all_ip_sets.concat(client.list_ip_sets({ scope: 'REGIONAL', limit:100 }).ip_sets.map(&:to_h).each { |a| a[:scope]='REGIONAL'; a })
+        rescue Aws::WAFV2::Errors::WAFInvalidParameterException => e
+          # pass (IP Set not found)
+        end
+        p all_ip_sets
+
+        all_ip_sets.each do |i|
+          r = client.get_ip_set({ name: i[:name], scope: i[:scope], id: i[:id] })
+          ip_set = []
+          ip_set << r.ip_set.id
+          ip_set << r.ip_set.name
+
+          if r.ip_set.addresses.empty?
+            ip_set << ''
+          else
+            ip_set << r.ip_set.addresses.join(', ')
+          end
+
+          ip_sets << ip_set
+        end
+
+        return web_acls.sort, rules, resources.sort, ip_sets.sort
       end
 
       module_function :report, :get_resources
