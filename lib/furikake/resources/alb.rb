@@ -15,7 +15,7 @@ module Furikake
                                                 align: 'l')
         end
         
-        headers = ['Listener Name', 'Protocal', 'Port', 'Listener Name']
+        headers = ['Listener Name', 'Protocal', 'Port']
         if listeners.empty?
           listener_info = 'N/A'
         else
