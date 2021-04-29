@@ -35,17 +35,20 @@ EOS
           res.auto_scaling_groups.each do |a|
             asg = []
             asg << a.auto_scaling_group_name
-            if a.launch_configuration_name.nil?
-              launch_template = []
-              if a.launch_template.nil?
-                asg << ''
-              else
-                launch_template << a.launch_template.launch_template_name
-                launch_template << a.launch_template.version
-                asg << launch_template.join(":")
-              end
-            else
+            if ! a.launch_configuration_name.nil?
               asg << a.launch_configuration_name
+            elsif ! a.launch_template.nil?
+              launch_template = []
+              launch_template << a.launch_template.launch_template_name
+              launch_template << a.launch_template.version
+              asg << launch_template.join(":")
+            elsif ! a.mixed_instances_policy.nil?
+              launch_template = []
+              launch_template << a.mixed_instances_policy.launch_template.launch_template_specification.launch_template_name
+              launch_template << a.mixed_instances_policy.launch_template.launch_template_specification.version
+              asg << launch_template.join(":")
+            else
+              asg << "unknown"
             end
             asg << a.min_size
             asg << a.max_size
