@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'aws-sdk'
   spec.add_dependency 'markdown-tables', '~> 1.1.1'
   spec.add_dependency 'backlog_kit'
+  spec.add_dependency 'diff-lcs'
 end
