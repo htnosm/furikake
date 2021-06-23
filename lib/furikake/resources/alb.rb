@@ -5,7 +5,7 @@ module Furikake
     module Alb
       def report
         albs, listeners, rules, target_groups = get_resources
-        headers = ['LB Name', 'DNS Name', 'Type', 'Target Group']
+        headers = ['LB Name', 'DNS Name', 'Type', 'Target Group', 'Security Group']
         if albs.empty?
           albs_info = 'N/A'
         else
@@ -83,6 +83,7 @@ EOS
           alb_info << lb.dns_name
           alb_info << lb.type
           alb_info << (t.map {|a| a[:target_group_name]}).join(", ")
+          alb_info << lb.security_groups.sort.join('<br>')
           albs << alb_info
 
           # ALB => Listener

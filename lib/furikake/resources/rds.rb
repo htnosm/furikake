@@ -9,7 +9,7 @@ module Furikake
               {
                  subtitle: 'DB Instances',
                  header: ['DB Cluster Name', 'DB Instance Name',
-                          'DB Instance Class', 'DB Engine', 'DB Endpoint'],
+                          'DB Instance Class', 'DB Engine', 'DB Endpoint', 'Security Group'],
                  resource: instance
               },
               {
@@ -34,6 +34,16 @@ module Furikake
           instance << i[:db_instance_class]
           instance << i[:engine]
           instance << i[:endpoint][:address]
+
+          security_groups = []
+          if i[:db_security_groups].length > 0
+            security_groups << (i[:db_security_groups].map {|i| i[:db_security_group_name]})
+          end
+          if i[:vpc_security_groups].length > 0
+            security_groups << (i[:vpc_security_groups].map {|i| i[:vpc_security_group_id]})
+          end
+          instance << security_groups.sort.join('<br>')
+
           rds_infos << instance
         end
 

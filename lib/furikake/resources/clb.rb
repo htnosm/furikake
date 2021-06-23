@@ -3,7 +3,7 @@ module Furikake
     module Clb
       def report
         resources = get_resources
-        headers = ['LB Name', 'DNS Name', 'Instances']
+        headers = ['LB Name', 'DNS Name', 'Instances', 'Security Group']
         if resources.empty?
           info = 'N/A'
         else
@@ -26,6 +26,7 @@ EOS
           elb << lb.load_balancer_name
           elb << lb.dns_name
           elb << (lb.instances.map(&:to_h).map {|a| a[:instance_id] }).join(',')
+          elb << lb.security_groups.sort.join('<br>')
           elbs << elb
         end
         elbs.sort
