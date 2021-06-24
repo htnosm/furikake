@@ -10,7 +10,7 @@ module Furikake
                subtitle: '',
                header: ['Name', 'Instance ID', 'Instance Type',
                         'Availability Zone', 'Private IP Address',
-                        'Public IP Address', 'State'],
+                        'Public IP Address', 'State', 'Security Group'],
                resource: instance
             }
           ]
@@ -41,6 +41,13 @@ module Furikake
                 instance << i.public_ip_address
               end
               instance << i.state.name
+
+              security_groups = []
+              i.security_groups.each do |sg|
+                security_groups << sg.group_id
+              end
+              instance << security_groups.sort.join('<br>')
+
               instances << instance
             end
           end

@@ -28,6 +28,9 @@
 * 読込失敗時のエラー出力追加
 * 各リソース出力の順序固定(Nameでのsort)
 * vpc_endpoint Tag:Name の修正
+* SecurityGroup列追加
+  * ec2,alb,clb,rds,redshift
+* clb へ listener セクション追加
 
 ### Markdown Table出力
 
