@@ -4,6 +4,7 @@
 
 | resource | content |
 | :--- | :--- |
+| alb_with_target_health | ALB/NLB に Target(Instance) 情報付与 |
 | acm | AWS Certificate Manager |
 | auto_scaling | Auto Scaling Group |
 | cloudfront | CloudFront Distribution |
