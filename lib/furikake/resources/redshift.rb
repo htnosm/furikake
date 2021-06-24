@@ -9,7 +9,7 @@ module Furikake
               {
                  subtitle: 'Clusters',
                  header: ['Cluster Identifier', 'Endpoint', 'Node Type', 'Status(AvailabilityStatus)',
-                          'Number Of Nodes', 'JDBC URL', 'ODBC URL', 'Security Group'],
+                          'Number Of Nodes', 'JDBC URL', 'ODBC URL', 'Parameter Group', 'Security Group'],
                  resource: cluster
               }
           ]
@@ -32,6 +32,7 @@ module Furikake
           cluster << "`jdbc:redshift://#{endpoint}`"
           odbc_url = "`Driver={Amazon Redshift (x64)}; Server=#{c[:endpoint][:address]}; Database=#{c[:db_name]};UID=#{c[:master_username]}; PWD=insert_your_master_user_password_here; Port=#{c[:endpoint][:port]}`"
           cluster << odbc_url
+          cluster << (c[:cluster_parameter_groups].map {|c| c[:parameter_group_name]}).join(',')
 
           security_groups = []
           if c[:cluster_security_groups].length > 0
