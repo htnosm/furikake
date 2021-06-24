@@ -11,7 +11,8 @@ module Furikake
                header: ['Name', 'Instance ID', 'Instance Type',
                         'Availability Zone', 'Private IP Address',
                         'Public IP Address', 'State',
-                        'Volume(device:volume_id:volume_size)'],
+                        'Volume(device:volume_id:volume_size)',
+                        'Security Group'],
                resource: instance.sort
             }
           ]
@@ -62,6 +63,12 @@ module Furikake
                 end
               end
               instance << volumes.sort.join('<br>')
+
+              security_groups = []
+              i.security_groups.each do |sg|
+                security_groups << sg.group_id
+              end
+              instance << security_groups.sort.join('<br>')
 
               instances << instance
             end

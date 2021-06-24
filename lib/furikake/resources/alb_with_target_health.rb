@@ -2,7 +2,7 @@ require "json"
 
 module Furikake
   module Resources
-    module Alb
+    module AlbWithTargetHealth
       def report
         albs, listeners, rules, target_groups = get_resources
         headers = ['LB Name', 'DNS Name', 'Type', 'Target Group', 'Security Group']
@@ -35,7 +35,9 @@ module Furikake
                                                         align: 'l')
         end
 
-        headers = ['Target Group Name', 'Protocal', 'Port', 'Health Check Path', 'Health Chack Port', 'Health Check Protocol']
+        headers = ['Target Group Name', 'Protocal', 'Port', 
+                   'Health Check Path', 'Health Chack Port', 'Health Check Protocol',
+                   'Targets']
         if target_groups.empty?
           target_group_info = 'N/A'
         else
@@ -124,6 +126,14 @@ EOS
           target_group << (t.map {|a| a[:health_check_path].nil? ? " " : a[:health_check_path]}).join(", ")
           target_group << (t.map {|a| a[:health_check_port]}).join(", ")
           target_group << (t.map {|a| a[:health_check_protocol]}).join(", ")
+
+          targets = []
+          target_group_arn = (t.map {|a| a[:target_group_arn]}).join(", ")
+          alb.describe_target_health({target_group_arn: target_group_arn}).target_health_descriptions.each do |th|
+            targets << th.target.id
+          end
+          target_group << targets.sort.join(",")
+
           target_groups << target_group
         end
 

@@ -4,6 +4,7 @@
 
 | resource | content |
 | :--- | :--- |
+| alb_with_target_health | ALB/NLB に Target(Instance) 情報付与 |
 | acm | AWS Certificate Manager |
 | auto_scaling | Auto Scaling Group |
 | cloudfront | CloudFront Distribution |
@@ -21,6 +22,7 @@
 | route53_domains | Route53 ドメイン |
 | s3 | S3バケット |
 | s3_regional | S3バケット(リージョン固有) |
+| vpc_peering | VPC Peering |
 | wafv2 | AWS WAF(V2) |
 
 ## その他
@@ -28,6 +30,11 @@
 * 読込失敗時のエラー出力追加
 * 各リソース出力の順序固定(Nameでのsort)
 * vpc_endpoint Tag:Name の修正
+* SecurityGroup列追加
+  * ec2,alb,clb,rds,redshift
+* ParameterGroup列追加
+  * rds,redshift
+* clb へ listener セクション追加
 
 ### Markdown Table出力
 
