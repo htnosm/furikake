@@ -23,6 +23,7 @@
 | s3 | S3バケット |
 | s3_regional | S3バケット(リージョン固有) |
 | vpc_peering | VPC Peering |
+| vpc_subnet | VPC Subnet |
 | wafv2 | AWS WAF(V2) |
 
 ## その他
