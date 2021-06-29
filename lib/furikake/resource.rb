@@ -60,11 +60,23 @@ module Furikake
       path = '.furikake.yml' if path.nil?
       begin
         config = YAML.load_file(path)
-        if config['resources'].has_key?('keep_config_order') and config['resources']['keep_config_order']
-          config['resources']['aws']
-        else
-          config['resources']['aws'].sort
+        resources = config['resources']['aws'].sort
+        if config.has_key?('options')
+          options = config['options']
+          # keep_config_order
+          if options.has_key?('keep_config_order') and options['keep_config_order']
+            resources = config['resources']['aws']
+          end
+          # filters
+          if options.has_key?('filters')
+            $filters = options['filters']
+          end
+          # output_tag_keys
+          if options.has_key?('output_tag_keys')
+            $output_tag_keys = options['output_tag_keys']
+          end
         end
+        resources
       rescue Errno::ENOENT
         logger.error('.furikake.yml が存在していません.')
         exit 1

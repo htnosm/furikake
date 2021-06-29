@@ -47,12 +47,24 @@
 
 * yml設定でのリソース順を保持して出力
     * .furikake.yml で `keep_config_order: true` 指定
+* 取得対象のタグを指定(filtersに対応しているリソースのみ)
+    * .furikake.yml で `filters: []` 指定
+* 出力タグキーを指定(対応しているリソースのみ)
+    * .furikake.yml で `display_tag_keys: []` 指定
 
 ```yaml
-resources:
+options:
   keep_config_order: true
-  aws:
-    - ...
+  filters:
+    # tag キーと値での絞り込み例
+    - name: "tag:env"
+      values: ["dev", "stg"]
+    # tag キーのみでの絞り込み例
+    - name: "tag-key"
+      values: ["aws:cloudformation:stack-id", "aws:cloudformation:stack-name"]
+  display_tag_keys:
+    - "Name"
+    - "aws:autoscaling:groupName"
 ```
 
 ### Wiki作成(ProjectKey指定)
