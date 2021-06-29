@@ -50,8 +50,10 @@
 * 取得対象のタグを指定(filtersでのtag指定に対応しているリソースのみ)
     * .furikake.yml で `filters: []` 指定
     * filters 対応リソースへの共通設定
+    * 末尾に備考として "抽出条件" を出力
 * 出力タグキーを指定(対応しているリソースのみ)
     * .furikake.yml で `display_tag_keys: []` 指定
+    * 末尾に備考として "Tags列への出力タグキー" を出力
 
 ```yaml
 options:
