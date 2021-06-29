@@ -8,6 +8,9 @@ module Furikake
           'Requester CIDRs', 'Accepter CIDRs',
           'Requester Owner', 'Accepter Owner',
           'State']
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         if resources.empty?
           info = 'N/A'
         else
@@ -41,6 +44,17 @@ EOS
             peering << p.requester_vpc_info.owner_id
             peering << p.accepter_vpc_info.owner_id
             peering << p.status.code
+
+            if $output_tag_keys
+              output_tags = []
+              $output_tag_keys.each do |t|
+                p.tags.each do |tag|
+                  output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                end
+              end
+              peering << output_tags.sort.join('<br>')
+            end
+
             peerings << peering
           end
           break if res.next_token.nil?

@@ -13,6 +13,9 @@ module Furikake
           'Renewal Eligibility',
           'Validation Method',
         ]
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         if resources.empty?
           info = 'N/A'
         else
@@ -57,6 +60,17 @@ EOS
             acm << cert.in_use_by.length
             acm << cert.renewal_eligibility
             acm << cert.domain_validation_options[0].validation_method
+
+            if $output_tag_keys
+              output_tags = []
+              $output_tag_keys.each do |t|
+                res_tags.tags.each do |tag|
+                  output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                end
+              end
+              acm << output_tags.sort.join('<br>')
+            end
+
             acms << acm
           end
           break if res.next_token.nil?

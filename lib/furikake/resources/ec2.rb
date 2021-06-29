@@ -15,12 +15,16 @@ module Furikake
             }
           ]
         }
+        if $output_tag_keys and $output_tag_keys.length > 0
+          contents[:resources][0][:header] << 'Tags'
+        end
         Furikake::Formatter.shaping(format, contents)
       end
 
       def get_resources
         ec2 = Aws::EC2::Client.new
         params = {}
+        params[:filters] = $filters
         instances = []
         loop do
           res = ec2.describe_instances(params)
@@ -47,6 +51,16 @@ module Furikake
                 security_groups << sg.group_id
               end
               instance << security_groups.sort.join('<br>')
+
+              if $output_tag_keys
+                output_tags = []
+                $output_tag_keys.each do |t|
+                  i.tags.each do |tag|
+                    output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                  end
+                end
+                instance << output_tags.sort.join('<br>')
+              end
 
               instances << instance
             end

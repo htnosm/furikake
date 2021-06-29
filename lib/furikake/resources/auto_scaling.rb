@@ -11,6 +11,9 @@ module Furikake
           'LoadBalancers/TargetGroups',
           'HealthCheckType'
         ]
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         if resources.empty?
           info = 'N/A'
         else
@@ -65,6 +68,17 @@ EOS
             asg << load_balancers.sort.join('<br>')
 
             asg << a.health_check_type
+
+            if $output_tag_keys
+              output_tags = []
+              $output_tag_keys.each do |t|
+                a.tags.each do |tag|
+                  output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                end
+              end
+              asg << output_tags.sort.join('<br>')
+            end
+
             asgs << asg
           end
           break if res.next_token.nil?

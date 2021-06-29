@@ -47,8 +47,9 @@
 
 * yml設定でのリソース順を保持して出力
     * .furikake.yml で `keep_config_order: true` 指定
-* 取得対象のタグを指定(filtersに対応しているリソースのみ)
+* 取得対象のタグを指定(filtersでのtag指定に対応しているリソースのみ)
     * .furikake.yml で `filters: []` 指定
+    * filters 対応リソースへの共通設定
 * 出力タグキーを指定(対応しているリソースのみ)
     * .furikake.yml で `display_tag_keys: []` 指定
 
