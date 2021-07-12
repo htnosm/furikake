@@ -15,7 +15,7 @@ module Furikake
           info = MarkdownTables.make_table(headers, resources, is_rows: true, align: 'l')
         end
         documents = <<"EOS"
-### subnet
+### VPC Subnet
 
 #{info}
 EOS
