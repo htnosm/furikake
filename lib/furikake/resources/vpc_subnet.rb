@@ -3,7 +3,7 @@ module Furikake
     module VpcSubnet
       def report
         resources = get_resources
-        headers = ['Name', 'Subnet ID', 'State', 'VPC ID', 'IPv4 CIDR', 'Available IPv4 Addresses',
+        headers = ['Name', 'Subnet ID', 'State', 'VPC ID', 'IPv4 CIDR',
                    'Availability Zone', 'Availability Zone ID', 'Default Subnet', 'Auto-assign Public IPv4 Address',
                    'Auto-assign Customer-owned IPv4 Address', 'Customer-owned IPv4 Pool']
         if $output_tag_keys and $output_tag_keys.length > 0
@@ -39,7 +39,8 @@ EOS
           subnet << s.state
           subnet << s.vpc_id
           subnet << s.cidr_block
-          subnet << s.available_ip_address_count
+          # Excluded because it increases or decreases depending on internal resources
+          #subnet << s.available_ip_address_count
           subnet << s.availability_zone
           subnet << s.availability_zone_id
           subnet << s.default_for_az

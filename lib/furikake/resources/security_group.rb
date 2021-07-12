@@ -107,8 +107,8 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        ingresses.sort_by!{|x| [x[1].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
-        egresses.sort_by!{|x| [x[1].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
+        ingresses.sort_by!{|x| [x[1].to_s, x[2].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
+        egresses.sort_by!{|x| [x[1].to_s, x[2].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
         return ingresses, egresses
       end
 

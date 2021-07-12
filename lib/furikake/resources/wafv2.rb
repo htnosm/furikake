@@ -138,7 +138,7 @@ EOS
         rescue Aws::WAFV2::Errors::WAFInvalidParameterException => e
           # pass (IP Set not found)
         end
-        p all_ip_sets
+        #p all_ip_sets
 
         all_ip_sets.each do |i|
           r = client.get_ip_set({ name: i[:name], scope: i[:scope], id: i[:id] })
