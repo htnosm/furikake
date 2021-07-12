@@ -30,7 +30,6 @@ EOS
         subnets = []
         res = ec2.describe_subnets(params)
         res.subnets.each do |s|
-          pp s
           subnet = []
           subnet << 'N/A' if s.tags.map(&:to_h).all? { |h| h[:key] != 'Name' }
           s.tags.each do |tag|
