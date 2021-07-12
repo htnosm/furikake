@@ -53,7 +53,7 @@
     * filters 対応リソースへの共通設定
     * 末尾に備考として "抽出条件" を出力
 * 出力タグキーを指定(対応しているリソースのみ)
-    * .furikake.yml で `display_tag_keys: []` 指定
+    * .furikake.yml で `output_tag_keys: []` 指定
     * 末尾に備考として "Tags列への出力タグキー" を出力
 
 ```yaml
@@ -66,7 +66,7 @@ options:
     # tag キーのみでの絞り込み例
     - name: "tag-key"
       values: ["aws:cloudformation:stack-id", "aws:cloudformation:stack-name"]
-  display_tag_keys:
+  output_tag_keys:
     - "Name"
     - "aws:autoscaling:groupName"
 ```
