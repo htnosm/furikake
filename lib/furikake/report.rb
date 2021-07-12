@@ -79,6 +79,42 @@ module Furikake
 #{resource}
 #{footer}
 EOS
+
+      if $filters and $filters.length > 0
+        note_filters = <<"EOS"
+### 抽出条件
+
+```
+"filters": #{$filters}
+```
+
+EOS
+      end
+
+      if $output_tag_keys and $output_tag_keys.length > 0
+        note_tag_keys = <<"EOS"
+### Tags列への出力タグキー
+
+```
+#{$output_tag_keys}
+```
+
+EOS
+      end
+
+      if note_filters or note_tag_keys
+        documents = <<"EOS"
+#{documents}
+
+---
+
+## 備考
+
+#{note_filters}
+#{note_tag_keys}
+EOS
+      end
+
       documents
     end
 

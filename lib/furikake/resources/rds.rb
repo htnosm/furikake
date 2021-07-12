@@ -21,6 +21,11 @@ module Furikake
               }
           ]
         }
+        if $output_tag_keys and $output_tag_keys.length > 0
+          for num in 0..1 do
+            contents[:resources][num][:header] << 'Tags'
+          end
+        end
         Furikake::Formatter.shaping(format, contents).chomp
       end
 
@@ -46,6 +51,16 @@ module Furikake
           end
           instance << security_groups.sort.join('<br>')
 
+          if $output_tag_keys
+            output_tags = []
+            $output_tag_keys.each do |t|
+              i[:tag_list].each do |tag|
+                output_tags << '"' + t + '":"' + tag[:value] + '"' if tag[:key] == t
+              end
+            end
+            instance << output_tags.sort.join('<br>')
+          end
+
           rds_infos << instance
         end
 
@@ -57,6 +72,17 @@ module Furikake
           cluster << c[:reader_endpoint]
           cluster << c[:db_cluster_parameter_group]
           cluster << (c[:db_cluster_members].map {|m| m[:is_cluster_writer] ? m[:db_instance_identifier] + '(W)' : m[:db_instance_identifier] + '(R)'}).join(', ')
+
+          if $output_tag_keys
+            output_tags = []
+            $output_tag_keys.each do |t|
+              c[:tag_list].each do |tag|
+                output_tags << '"' + t + '":"' + tag[:value] + '"' if tag[:key] == t
+              end
+            end
+            cluster << output_tags.sort.join('<br>')
+          end
+
           cluster_infos << cluster
         end
 

@@ -5,10 +5,16 @@ module Furikake
         ingresses, egresses = get_resources
         headers = ['ID', 'Group Name', 'Description',
                    'Port', 'Protocol', 'Source' ]
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         ingress_info = MarkdownTables.make_table(headers, ingresses, is_rows: true, align: 'l')
 
         headers = ['ID', 'Group Name', 'Description',
                    'Port', 'Protocol', 'Destination' ]
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         egress_info = MarkdownTables.make_table(headers, egresses, is_rows: true, align: 'l')
 
         documents = <<"EOS"
@@ -29,6 +35,7 @@ EOS
       def get_resources
         ec2 = Aws::EC2::Client.new
         params = {}
+        params[:filters] = $filters
         ingresses = []
         egresses = []
         loop do
@@ -51,6 +58,17 @@ EOS
               source << list_ids unless list_ids.empty?
               source << group_pairs unless group_pairs.empty?
               ingress << source.join(', ')
+
+              if $output_tag_keys
+                output_tags = []
+                $output_tag_keys.each do |t|
+                  sg.tags.each do |tag|
+                    output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                  end
+                end
+                ingress << output_tags.sort.join('<br>')
+              end
+
               ingresses << ingress
             end
  
@@ -71,6 +89,17 @@ EOS
               dest << list_ids unless list_ids.empty?
               dest << group_pairs unless group_pairs.empty?
               egress << dest.join(', ')
+
+              if $output_tag_keys
+                output_tags = []
+                $output_tag_keys.each do |t|
+                  sg.tags.each do |tag|
+                    output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+                  end
+                end
+                egress << output_tags.sort.join('<br>')
+              end
+
               egresses << egress
             end
           end
@@ -78,8 +107,8 @@ EOS
           params[:next_token] = res.next_token
         end
 
-        ingresses.sort_by!{|x| [x[1].to_s, x[3].to_s]}
-        egresses.sort_by!{|x| [x[1].to_s, x[3].to_s]}
+        ingresses.sort_by!{|x| [x[1].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
+        egresses.sort_by!{|x| [x[1].to_s, x[3].to_s, x[4].to_s, x[5].to_s]}
         return ingresses, egresses
       end
 

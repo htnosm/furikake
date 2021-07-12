@@ -4,6 +4,9 @@ module Furikake
       def report
         resources = get_resources
         headers = ['VPC ID', 'Name', 'Route Table ID', 'Subnet Associations', 'Routes(Destination/Target/Status)']
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         if resources.empty?
           info = 'N/A'
         else
@@ -58,6 +61,16 @@ EOS
             routes << row.join(' / ')
           end
           route_table << routes.join('<br>')
+
+          if $output_tag_keys
+            output_tags = []
+            $output_tag_keys.each do |t|
+              r.tags.each do |tag|
+                output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+              end
+            end
+            route_table << output_tags.sort.join('<br>')
+          end
 
           route_tables << route_table
         end

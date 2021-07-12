@@ -4,6 +4,9 @@ module Furikake
       def report
         resources = get_resources
         headers = ['Name', 'ID', 'CIDR', 'State']
+        if $output_tag_keys and $output_tag_keys.length > 0
+          headers << 'Tags'
+        end
         if resources.empty?
           info = 'N/A'
         else
@@ -30,6 +33,17 @@ EOS
           vpc << v.vpc_id
           vpc << v.cidr_block
           vpc << v.state
+
+          if $output_tag_keys
+            output_tags = []
+            $output_tag_keys.each do |t|
+              v.tags.each do |tag|
+                output_tags << '"' + t + '":"' + tag.value + '"' if tag.key == t
+              end
+            end
+            vpc << output_tags.sort.join('<br>')
+          end
+
           vpcs << vpc
         end
         vpcs.sort
